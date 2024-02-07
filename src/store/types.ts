@@ -1,1 +1,6 @@
-export interface BoardInterface {}
+export interface Workspace {
+  name: string;
+}
+export interface BoardInterface {
+  workspaces: Workspace[];
+}
