@@ -6,7 +6,7 @@
 
 :root {
   font-family: 'Inter', sans-serif;
-  line-height: 1.5;
+  line-height: 18px;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,5 +17,6 @@
 
 body {
   margin: 0;
-  background: #F4F7FE;
+  background: #f4f7fe;
+  color: rgba(0, 28, 57, 1);
 }
