@@ -1,3 +1,5 @@
 export * from './Settings';
 export * from './Plus';
-export * from './WorkspaceIcon';
+export * from './Workspace';
+export * from './WorkspaceDefault';
+export * from './Success';

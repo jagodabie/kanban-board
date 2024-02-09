@@ -2,7 +2,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { WorkspaceDefaultIcon } from '../../assets/icons/WorkspaceDefaultIcon';
+import { WorkspaceDefault } from '../../assets/icons/WorkspaceDefault';
 import { WorkspaceIcon } from '../../assets/icons';
 import { Workspace } from '../workspace';
 import { WorkspaceInterface } from '../../store/types';
@@ -22,9 +22,7 @@ export const Column: React.FC<{ workspaces: WorkspaceInterface[] }> = ({
             key={index}
             id={workspace.id}
             name={workspace.name}
-            iconComponent={
-              !index ? <WorkspaceDefaultIcon /> : <WorkspaceIcon />
-            }
+            iconComponent={!index ? <WorkspaceDefault /> : <WorkspaceIcon />}
           />
         ))}
       </SortableContext>

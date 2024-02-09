@@ -1,7 +1,7 @@
 import './WorkspacesSidebar.scss';
 import { UserProfile } from '../userProfile';
 import { WorkspaceSettings } from '../workspaceSettings';
-import { AddWorkspace } from '../addWorkspace';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
 import { addWorkspace } from '../../store/slices';
 import { generateId } from '../../utils';
@@ -13,6 +13,8 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { Column } from '../column/Column';
+import { Button } from '../UI/button';
+import { Plus } from '../../assets/icons';
 
 export const WorkspacesSidebar = () => {
   const workspaces = useAppSelector((state) => state.board.workspaces);
@@ -36,10 +38,12 @@ export const WorkspacesSidebar = () => {
           <Column workspaces={workspaces} />
         </DndContext>
         {/* TODO: delete mock  Januszex*/}
-        <AddWorkspace
-          addWorkspace={() =>
+        <Button
+          onClick={() =>
             dispatch(addWorkspace({ name: 'Januszex', id: generateId() }))
           }
+          text='Create workspace'
+          iconComponent={<Plus />}
         />
       </div>
       <div className='workspaces-footer'>
