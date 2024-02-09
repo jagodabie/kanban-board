@@ -1,19 +1,19 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { BoardInterface, Workspace } from '../types';
+import { WorkspaceInterface, BoardInterface } from '../types';
 
 // TODO: If i use good object name
 const initialState: BoardInterface = {
-  workspaces: [{ name: 'Jagoda' }],
+  workspaces: [{ id: '1', name: 'Acme Corp workspace' }],
 };
 
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    addBoard: (state, action: PayloadAction<Workspace>) => {
+    addWorkspace: (state, action: PayloadAction<WorkspaceInterface>) => {
       state.workspaces.push(action.payload);
     },
   },
 });
 export default boardSlice.reducer;
-export const { addBoard } = boardSlice.actions;
+export const { addWorkspace } = boardSlice.actions;
