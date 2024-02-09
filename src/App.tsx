@@ -7,7 +7,7 @@ export const App = () => {
     <div className='container'>
       <WorkspacesSidebar />
       {/* TODO: Remove mock */}
-      <TasksGroup name='Working on' tasks={[{ id: '', name: '' }]} />
+      <TasksGroup name='' tasks={[]} />
     </div>
   );
 };
