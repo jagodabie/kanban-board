@@ -1,11 +1,13 @@
-import './Workspace.scss';
+import './WorkspaceSideBarElement.scss';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
 import { setSaveButtonDisabled } from '../../store/slices';
+import { Delete } from '../../assets/icons/Delete';
+import { Edit } from '../../assets/icons/Edit';
 
-export const Workspace = ({
+export const WorkspaceSideBarElement = ({
   name,
   id,
   iconComponent,
@@ -61,8 +63,14 @@ export const Workspace = ({
       className='workspace'
       onClick={onClick}
     >
-      <div className='workspace-icon'>{iconComponent}</div>
-      <span className='workspace-name'>{name}</span>
+      <div className='workspace-container'>
+        <div className='workspace-icon'>{iconComponent}</div>
+        <span className='workspace-name'>{name}</span>
+      </div>
+      <div className='workspace-actions'>
+        <Edit />
+        <Delete />
+      </div>
     </div>
   );
 };

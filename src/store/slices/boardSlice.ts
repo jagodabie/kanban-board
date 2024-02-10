@@ -24,11 +24,21 @@ const initialState: BoardInterface = {
 };
 
 export const boardSlice = createSlice({
-  name: 'workspace',
+  name: 'board',
   initialState,
   reducers: {
-    addWorkspace: (state, action: PayloadAction<WorkspaceInterface>) => {
+    createWorkspace: (state, action: PayloadAction<WorkspaceInterface>) => {
       state.workspaces.push(action.payload);
+    },
+    // updateWorkspace: (state, action: PayloadAction<WorkspaceInterface>) => {
+    //   state.workspaces = state.workspaces.map((workspace) => {
+    //     return workspace.id === action.payload.id ? action.payload : workspace;
+    //   });
+    // },
+    deleteWorkspace: (state, action: PayloadAction<string>) => {
+      state.workspaces = state.workspaces.filter(
+        (workspace) => workspace.id !== action.payload
+      );
     },
     setEditMode: (state, action: PayloadAction<string>) => {
       state.editMode = action.payload;
@@ -49,7 +59,9 @@ export const boardSlice = createSlice({
 
 export default boardSlice.reducer;
 export const {
-  addWorkspace,
+  createWorkspace,
+  // updateWorkspace,
+  deleteWorkspace,
   setEditMode,
   setCreateVisible,
   setSaveButtonDisabled,

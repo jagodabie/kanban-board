@@ -4,7 +4,7 @@ import {
 } from '@dnd-kit/sortable';
 import { WorkspaceDefault } from '../../assets/icons/WorkspaceDefault';
 import { WorkspaceIcon } from '../../assets/icons';
-import { Workspace } from '../workspace';
+import { WorkspaceSideBarElement } from '../workspaceSideBarElement';
 import { WorkspaceInterface } from '../../store/types';
 import { setEditMode } from '../../store/slices';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -20,7 +20,7 @@ export const Column: React.FC<{ workspaces: WorkspaceInterface[] }> = ({
         strategy={verticalListSortingStrategy}
       >
         {workspaces?.map((workspace, index) => (
-          <Workspace
+          <WorkspaceSideBarElement
             key={index}
             id={workspace.id}
             name={workspace.name}
