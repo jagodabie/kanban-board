@@ -1,4 +1,5 @@
 // TODO: Add border shadow to the button
+//  box-shadow: 2px 2px 5px #fc894d;
 .button {
   width: 100%;
   padding: 8px 12px 8px 10px;
@@ -15,5 +16,15 @@
     font-size: 13px;
     display: inline-block;
     margin-left: 6px;
+  }
+  &-primary {
+    background: #007dfc;
+    border: solid 1px #007dfc;
+    color: #fff;
+  }
+  &-primary:disabled {
+    background: #b8b3c5;
+    border: solid 1px #b8b3c5;
+    color: #594f78;
   }
 }

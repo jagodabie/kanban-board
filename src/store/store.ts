@@ -3,8 +3,8 @@ import { boardSlice } from './slices';
 
 export const store = configureStore({
   reducer: {
-    board: boardSlice.reducer,
-  }
+    workspace: boardSlice.reducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

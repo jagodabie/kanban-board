@@ -1,4 +1,4 @@
-export const Success = () => (
+export const Success = ({ color }: { color?: string }) => (
   <svg
     width='17'
     height='16'
@@ -8,7 +8,7 @@ export const Success = () => (
   >
     <path
       d='M7.16668 10.1148L13.2947 3.98608L14.238 4.92875L7.16668 12.0001L2.92401 7.75742L3.86668 6.81475L7.16668 10.1148Z'
-      fill='#594F78'
+      fill={color ? color : '#594F78'}
     />
   </svg>
 );

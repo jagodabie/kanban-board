@@ -3,7 +3,7 @@ import { UserProfile } from '../userProfile';
 import { WorkspaceSettings } from '../workspaceSettings';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
-import { addWorkspace } from '../../store/slices';
+import { createWorkspace, setCreateVisible } from '../../store/slices';
 import { generateId } from '../../utils';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
@@ -14,10 +14,11 @@ import {
 } from '@dnd-kit/core';
 import { Column } from '../column/Column';
 import { Button } from '../UI/button';
-import { Plus } from '../../assets/icons';
+import { Plus, Success } from '../../assets/icons';
 
 export const WorkspacesSidebar = () => {
-  const workspaces = useAppSelector((state) => state.board.workspaces);
+  const workspace = useAppSelector(({ workspace }) => workspace);
+
   const dispatch = useAppDispatch();
 
   const sensors = useSensors(
@@ -27,23 +28,35 @@ export const WorkspacesSidebar = () => {
       },
     })
   );
+  const createNewWorkspace = () => {
+    dispatch(createWorkspace({ name: 'Workspace name', id: generateId() }));
+    dispatch(setCreateVisible(false));
+  };
+  const saveWorkspace = () => {
+    dispatch(setCreateVisible(true));
+  };
 
   return (
     <div className='workspaces'>
       <div className='workspaces-header'></div>
       <div className='workspaces-main'>
-        {/* TODO: zastanowić czy tego używać albo jak to ulepszyć :D
-         */}
         <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]}>
-          <Column workspaces={workspaces} />
+          <Column workspaces={workspace.workspaces} />
         </DndContext>
-        {/* TODO: delete mock  Januszex*/}
         <Button
-          onClick={() =>
-            dispatch(addWorkspace({ name: 'Januszex', id: generateId() }))
+          onClick={workspace.create ? createNewWorkspace : saveWorkspace}
+          text={workspace.create ? 'Create workspace' : 'Save new workspace'}
+          disabled={!workspace.create && workspace.save}
+          iconComponent={
+            workspace.create ? (
+              <Plus />
+            ) : (
+              <Success
+                color={!workspace.create && workspace.save ? '' : '#fff'}
+              />
+            )
           }
-          text='Create workspace'
-          iconComponent={<Plus />}
+          type={workspace.create ? '' : 'primary'}
         />
       </div>
       <div className='workspaces-footer'>

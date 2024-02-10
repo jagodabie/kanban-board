@@ -4,6 +4,7 @@
   background: #f4f7fe;
   border-radius: 8px;
   padding: 15px;
+  justify-content: space-between;
   margin-bottom: 2px;
 
   &-name {
@@ -12,5 +13,37 @@
     margin-top: 7px;
     margin-left: 12px;
     font-size: 13px;
+  }
+  &-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-actions {
+    margin-top: 7px;
+    display: flex;
+    & > *:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  input {
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    margin-left: 12px;
+
+    &::placeholder {
+      color: #001c39;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-left: 2px;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 }
