@@ -12,6 +12,7 @@ import {
   deleteWorkspace,
   setEditMode,
   setWorkspaceEditing,
+  updateTasksGroupName,
 } from '../../../store/slices/actions';
 
 export const WorkspacesColumn: React.FC<{
@@ -31,13 +32,14 @@ export const WorkspacesColumn: React.FC<{
             id={workspace.id}
             name={workspace.name}
             boardElementClass='workspace-side-element'
-            onBlur={() => {
+            onBlur={(inputValue) => {
+              dispatch(updateTasksGroupName(inputValue || workspace.name));
               dispatch(setEditMode({ id: '' }));
             }}
-            // TODO: czuy jeszcze tego potrzebuje w ogóle?
             onClick={() => {
               dispatch(setWorkspaceEditing(workspace.id));
             }}
+            editingAction={() => dispatch(setEditMode({ id: workspace.id }))}
             deleteAction={() => dispatch(deleteWorkspace(workspace.id))}
             placeholder='Workspace name'
             iconComponent={!index ? <WorkspaceDefault /> : <WorkspaceIcon />}

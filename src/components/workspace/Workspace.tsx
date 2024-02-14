@@ -23,7 +23,7 @@ export const Workspace = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
   return (
     <div className='workspace'>
-      {tasksGroups?.length ? (
+      {!!tasksGroups?.length &&
         tasksGroups?.map((tasksGroup, index) => (
           <div className='tasks-group'>
             <div className='tasks-group-header'>
@@ -45,7 +45,6 @@ export const Workspace = ({ id }: { id: string }) => {
               />
             </div>
             <div className='tasks-group-main'></div>
-
             <div className='tasks-group-footer'>
               <Button
                 text='Add a card'
@@ -54,8 +53,8 @@ export const Workspace = ({ id }: { id: string }) => {
               />
             </div>
           </div>
-        ))
-      ) : (
+        ))}
+      <div className='tasks-group-new'>
         <Input
           placeholder='Title of the new list...'
           boardElementClass='workspace-tasks-group-new'
@@ -71,7 +70,7 @@ export const Workspace = ({ id }: { id: string }) => {
             }
           }}
         />
-      )}
+      </div>
     </div>
   );
 };

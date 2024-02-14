@@ -34,6 +34,7 @@ export const WorkspaceSideBarElement = ({
         boardElementClass={boardElementClass}
         iconComponent={iconComponent}
         name={name}
+        id={id}
       />
     );
   }
