@@ -3,7 +3,6 @@ import { UserProfile } from '../userProfile';
 import { WorkspaceSettings } from '../workspaceSettings';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
-import { createWorkspace, setCreateVisible } from '../../store/slices';
 import { generateId } from '../../utils';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
@@ -12,9 +11,16 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { Column } from '../column/Column';
+import { WorkspacesColumn } from './workspacesColumn/WorkspacesColumn';
 import { Button } from '../UI/button';
 import { Plus, Success } from '../../assets/icons';
+import {
+  createWorkspace,
+  setCreateVisible,
+  setEditMode,
+  setSaveButtonDisabled,
+  setWorkspaceEditing,
+} from '../../store/slices/actions';
 
 export const WorkspacesSidebar = () => {
   const workspace = useAppSelector(({ workspace }) => workspace);
@@ -29,11 +35,25 @@ export const WorkspacesSidebar = () => {
     })
   );
   const createNewWorkspace = () => {
-    dispatch(createWorkspace({ name: 'Workspace name', id: generateId() }));
+    const newWorkspace = {
+      name: '',
+      id: generateId(),
+      tasksGroups: [],
+    };
+
+    dispatch(createWorkspace(newWorkspace));
+    dispatch(setWorkspaceEditing(newWorkspace.id));
+    dispatch(
+      setEditMode({
+        id: newWorkspace.id,
+      })
+    );
     dispatch(setCreateVisible(false));
   };
   const saveWorkspace = () => {
     dispatch(setCreateVisible(true));
+    dispatch(setSaveButtonDisabled(true));
+    dispatch(setEditMode({ id: '' }));
   };
 
   return (
@@ -41,7 +61,7 @@ export const WorkspacesSidebar = () => {
       <div className='workspaces-header'></div>
       <div className='workspaces-main'>
         <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]}>
-          <Column workspaces={workspace.workspaces} />
+          <WorkspacesColumn workspaces={workspace.workspaces} />
         </DndContext>
         <Button
           onClick={workspace.create ? createNewWorkspace : saveWorkspace}

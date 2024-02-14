@@ -12,11 +12,14 @@ export interface TasksGroupInterface {
 export interface WorkspaceInterface {
   name: string;
   id: string;
-  tasksGroups?: TasksGroupInterface[];
+  tasksGroups: TasksGroupInterface[];
 }
 export interface BoardInterface {
   workspaces: WorkspaceInterface[];
   create: boolean;
   save: boolean;
-  editMode: string;
+  workspaceEditing: string;
+  editMode: {
+    id: string;
+  };
 }

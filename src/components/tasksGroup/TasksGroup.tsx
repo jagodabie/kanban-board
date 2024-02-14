@@ -19,7 +19,12 @@ export const TasksGroup: React.FC<{
         <Button
           text='Add a card'
           onClick={() => console.log('test')}
-          iconComponent={<Plus color='#88819f' />}
+          iconComponent={
+            <Plus
+              color='#background: #88819F
+          '
+            />
+          }
         />
       </div>
     </div>

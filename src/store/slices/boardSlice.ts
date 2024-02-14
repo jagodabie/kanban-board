@@ -1,5 +1,6 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { BoardInterface, WorkspaceInterface } from '../types';
+import { createSlice } from '@reduxjs/toolkit';
+import { BoardInterface } from '../types';
+import * as reducers from './reducers';
 
 const initialState: BoardInterface = {
   workspaces: [
@@ -8,17 +9,25 @@ const initialState: BoardInterface = {
       name: 'Acme Corp workspace',
       tasksGroups: [
         {
-          id: '1',
+          id: '1233',
           name: 'Tasks group 1',
-          tasks: [
-            { id: '1', name: 'Task 1', done: false },
-            { id: '2', name: 'Task 2', done: true },
-          ],
+          tasks: [],
         },
       ],
     },
+    {
+      id: '223213',
+      name: 'Acme Corp workspace 1',
+      tasksGroups: [],
+    },
   ],
-  editMode: '',
+  // TODO:
+  // jakiś element z listy workspaces będzie edytowany =>
+  //  nie obchodzi nas jaki to element tylko jego id
+  editMode: {
+    id: '',
+  },
+  workspaceEditing: '',
   create: true,
   save: true,
 };
@@ -26,44 +35,7 @@ const initialState: BoardInterface = {
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
-  reducers: {
-    createWorkspace: (state, action: PayloadAction<WorkspaceInterface>) => {
-      state.workspaces.push(action.payload);
-    },
-    // updateWorkspace: (state, action: PayloadAction<WorkspaceInterface>) => {
-    //   state.workspaces = state.workspaces.map((workspace) => {
-    //     return workspace.id === action.payload.id ? action.payload : workspace;
-    //   });
-    // },
-    deleteWorkspace: (state, action: PayloadAction<string>) => {
-      state.workspaces = state.workspaces.filter(
-        (workspace) => workspace.id !== action.payload
-      );
-    },
-    setEditMode: (state, action: PayloadAction<string>) => {
-      state.editMode = action.payload;
-    },
-    setCreateVisible: (state, action: PayloadAction<boolean>) => {
-      state.create = action.payload;
-    },
-    setSaveButtonDisabled: (state, action: PayloadAction<boolean>) => {
-      state.save = action.payload;
-    },
-    saveEditedWorkspace: (state, action: PayloadAction<WorkspaceInterface>) => {
-      state.workspaces = state.workspaces.map((workspace) => {
-        return workspace.id === action.payload.id ? action.payload : workspace;
-      });
-    },
-  },
+  reducers,
 });
 
 export default boardSlice.reducer;
-export const {
-  createWorkspace,
-  // updateWorkspace,
-  deleteWorkspace,
-  setEditMode,
-  setCreateVisible,
-  setSaveButtonDisabled,
-  saveEditedWorkspace,
-} = boardSlice.actions;

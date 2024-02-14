@@ -1,0 +1,18 @@
+@import '../../../_mixins.scss';
+
+.workspace-side-element {
+  display: flex;
+  justify-content: flex-start;
+  background: #f4f7fe;
+  border-radius: 8px;
+  padding: 15px;
+  justify-content: space-between;
+  margin-bottom: 2px;
+
+  @include workspaceElement;
+  &-name {
+    margin-left: 12px;
+  }
+
+  @include inputStyles;
+}
