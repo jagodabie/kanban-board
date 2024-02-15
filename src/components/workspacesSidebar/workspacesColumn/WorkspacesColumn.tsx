@@ -7,12 +7,12 @@ import { WorkspaceIcon } from '../../../assets/icons';
 import { WorkspaceInterface } from '../../../store/types';
 
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { WorkspaceSideBarElementWrapper } from '../workspaceSideBarElement/WorkspaceSideBarElementWrapper';
+import { WorkspaceSideBarElementWrapper } from '../../workspaceElement/WorkspaceElementWrapper';
 import {
   deleteWorkspace,
   setEditMode,
   setWorkspaceEditing,
-  updateTasksGroupName,
+  updateWorkspaceName,
 } from '../../../store/slices/actions';
 
 export const WorkspacesColumn: React.FC<{
@@ -33,7 +33,7 @@ export const WorkspacesColumn: React.FC<{
             name={workspace.name}
             boardElementClass='workspace-side-element'
             onBlur={(inputValue) => {
-              dispatch(updateTasksGroupName(inputValue || workspace.name));
+              dispatch(updateWorkspaceName(inputValue || workspace.name));
               dispatch(setEditMode({ id: '' }));
             }}
             onClick={() => {

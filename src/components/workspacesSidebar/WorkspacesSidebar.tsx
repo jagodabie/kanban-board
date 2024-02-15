@@ -34,6 +34,7 @@ export const WorkspacesSidebar = () => {
       },
     })
   );
+
   const createNewWorkspace = () => {
     const newWorkspace = {
       name: '',

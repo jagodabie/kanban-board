@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { WorkspaceSideBarElement } from './WorkspaceSideBarElement';
-import './WorkspaceSideBarElement.scss';
+import { WorkspaceElement } from './WorkspaceElement';
+import './WorkspaceElement.scss';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -44,7 +44,7 @@ export const WorkspaceSideBarElementWrapper = ({
       onMouseOver={() => setIsActionVisible(true)}
       onMouseLeave={() => setIsActionVisible(false)}
     >
-      <WorkspaceSideBarElement
+      <WorkspaceElement
         key={id}
         name={name}
         iconComponent={iconComponent}

@@ -12,7 +12,7 @@ export const App = () => {
       {/* TO: Remove mock */}
       <WorkspacesSidebar />
       {workspaceEditing ? (
-        <Workspace id={workspaceEditing} />
+        <Workspace id={workspaceEditing} key={workspaceEditing} />
       ) : (
         <p className='no-task'>
           No tasks to show! <br />

@@ -20,7 +20,7 @@ export const Input = ({
 
   const handleLeaveInput = () => {
     onBlur(inputValue || '');
-    setInputValue('');
+    id ? setInputValue(name) : setInputValue('');
   };
 
   return (

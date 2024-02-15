@@ -25,7 +25,11 @@ export const updateWorkspaceName = (
       name: action.payload,
     };
 
-    state.workspaces = [...state.workspaces, updatedWorkspace];
+    state.workspaces = [...state.workspaces].map((workspace) => {
+      return workspace.id === state.workspaceEditing
+        ? updatedWorkspace
+        : workspace;
+    });
   }
 };
 
@@ -74,12 +78,15 @@ export const updateTasksGroupName = (
       name: action.payload,
     };
 
-    const updatedTasksGoups = [
-      { ...updatedTasksGroup, ...workspaceFound.tasksGroups },
-    ];
+    const updatedTasksGroups = workspaceFound.tasksGroups.map((tasksGroup) => {
+      return tasksGroup.id === state.editMode.id
+        ? updatedTasksGroup
+        : tasksGroup;
+    });
+
     const updatedWorkspace = {
       ...workspaceFound,
-      tasksGroups: updatedTasksGoups,
+      tasksGroups: updatedTasksGroups,
     };
 
     state.workspaces = [...state.workspaces].map((workspace) => {
@@ -98,10 +105,14 @@ export const deleteWorkspaceTasksGroup = (
     (workspace) => workspace.id === state.workspaceEditing
   );
   if (workspaceFound) {
-    workspaceFound.tasksGroups = workspaceFound.tasksGroups.filter(
+    const updatedWorkspace = workspaceFound.tasksGroups.filter(
       (tasksGroup) => tasksGroup.id !== action.payload
     );
-    state.workspaces = [...state.workspaces, workspaceFound];
+    state.workspaces = [...state.workspaces].map((workspace) => {
+      return workspace.id === state.workspaceEditing
+        ? { ...workspace, tasksGroups: updatedWorkspace }
+        : workspace;
+    });
   }
 };
 

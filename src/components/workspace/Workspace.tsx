@@ -1,16 +1,16 @@
-import { Plus } from '../../assets/icons';
+import { SortableContext } from '@dnd-kit/sortable';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
-import {
-  addWorkspaceTasksGroup,
-  deleteWorkspaceTasksGroup,
-  setEditMode,
-  updateTasksGroupName,
-} from '../../store/slices/actions';
+import { addWorkspaceTasksGroup } from '../../store/slices/actions';
 import { generateId } from '../../utils';
-import { Button } from '../UI/button';
 import { Input } from '../UI/input/Input';
-import { WorkspaceSideBarElementWrapper } from '../workspacesSidebar/workspaceSideBarElement/WorkspaceSideBarElementWrapper';
 import './Workspace.scss';
+import { TasksGroups } from './tasksGoup.tsx/TasksGroup';
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 
 export const Workspace = ({ id }: { id: string }) => {
   const tasksGroups =
@@ -20,40 +20,24 @@ export const Workspace = ({ id }: { id: string }) => {
           ?.tasksGroups
     ) || [];
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
   const dispatch = useAppDispatch();
   return (
     <div className='workspace'>
-      {!!tasksGroups?.length &&
-        tasksGroups?.map((tasksGroup, index) => (
-          <div className='tasks-group'>
-            <div className='tasks-group-header'>
-              <WorkspaceSideBarElementWrapper
-                key={index}
-                id={tasksGroup.id}
-                name={tasksGroup.name}
-                boardElementClass='workspace-tasks-group'
-                deleteAction={() =>
-                  dispatch(deleteWorkspaceTasksGroup(tasksGroup.id))
-                }
-                onBlur={(inputValue) => {
-                  dispatch(updateTasksGroupName(inputValue || tasksGroup.name));
-                  dispatch(setEditMode({ id: '' }));
-                }}
-                editingAction={() =>
-                  dispatch(setEditMode({ id: tasksGroup.id }))
-                }
-              />
-            </div>
-            <div className='tasks-group-main'></div>
-            <div className='tasks-group-footer'>
-              <Button
-                text='Add a card'
-                onClick={() => console.log('test')}
-                iconComponent={<Plus color='#88819f' />}
-              />
-            </div>
-          </div>
-        ))}
+      <DndContext sensors={sensors}>
+        <SortableContext items={tasksGroups}>
+          {!!tasksGroups?.length &&
+            tasksGroups?.map(({ id, name, tasks }) => (
+              <TasksGroups id={id} name={name} tasks={tasks || []} />
+            ))}
+        </SortableContext>
+      </DndContext>
       <div className='tasks-group-new'>
         <Input
           placeholder='Title of the new list...'

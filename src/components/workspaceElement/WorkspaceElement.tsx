@@ -1,8 +1,9 @@
-import './WorkspaceSideBarElement.scss';
-import { useAppSelector } from '../../../hooks/useAppDispatch';
-import { ReadModeElement } from '../../UI/readModeElement/ReadModeElement';
-import { Input } from '../../UI/input/Input';
-export const WorkspaceSideBarElement = ({
+import './WorkspaceElement.scss';
+import { useAppSelector } from '../../hooks/useAppDispatch';
+import { ReadModeElement } from '../UI/readModeElement/ReadModeElement';
+import { Input } from '../UI/input/Input';
+
+export const WorkspaceElement = ({
   name,
   id,
   iconComponent,
@@ -22,7 +23,7 @@ export const WorkspaceSideBarElement = ({
   boardElementClass: string;
   deleteAction?: () => void;
   editingAction?: () => void;
-  onBlur?: () => void;
+  onBlur?: (inputValue?: string) => void;
 }) => {
   const editMode = useAppSelector((state) => state.workspace.editMode);
 
