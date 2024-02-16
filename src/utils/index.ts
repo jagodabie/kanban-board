@@ -46,5 +46,6 @@ export const changedElementsOrder = <T>(
   originalPosition: number,
   newPosition: number
 ) => {
+  console.log(arrayMove(elements, originalPosition, newPosition), 'arrayMove');
   return arrayMove(elements, originalPosition, newPosition);
 };

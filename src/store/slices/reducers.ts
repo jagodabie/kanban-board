@@ -18,6 +18,17 @@ export const setWorkspacesOrder = (
   state.workspaces = action.payload;
 };
 
+export const setTasksGroupOrder = (
+  state: BoardInterface,
+  action: PayloadAction<TasksGroupInterface[]>
+) => {
+  state.workspaces = state.workspaces.map((workspace) => {
+    return workspace.id === state.workspaceEditing
+      ? { ...workspace, tasksGroups: action.payload }
+      : workspace;
+  });
+};
+
 export const updateWorkspaceName = (
   state: BoardInterface,
   action: PayloadAction<string>

@@ -1,16 +1,22 @@
 import { SortableContext } from '@dnd-kit/sortable';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
-import { addWorkspaceTasksGroup } from '../../store/slices/actions';
-import { generateId } from '../../utils';
+import {
+  addWorkspaceTasksGroup,
+  setTasksGroupOrder,
+} from '../../store/slices/actions';
+import { changedElementsOrder, generateId, getTaskPosition } from '../../utils';
 import { Input } from '../UI/input/Input';
 import './Workspace.scss';
 import { TasksGroups } from './tasksGoup.tsx/TasksGroup';
 import {
   DndContext,
+  DragOverEvent,
   PointerSensor,
+  closestCorners,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 
 export const Workspace = ({ id }: { id: string }) => {
   const tasksGroups =
@@ -27,10 +33,33 @@ export const Workspace = ({ id }: { id: string }) => {
       },
     })
   );
+  const handleDragEnd = (event: DragOverEvent) => {
+    const { active, over } = event;
+
+    if (active.id === over?.id) return;
+
+    if (active.id && over?.id) {
+      dispatch(
+        setTasksGroupOrder(
+          changedElementsOrder(
+            tasksGroups,
+            getTaskPosition(tasksGroups, active.id as string),
+            getTaskPosition(tasksGroups, over.id as string)
+          )
+        )
+      );
+    }
+    return;
+  };
   const dispatch = useAppDispatch();
   return (
     <div className='workspace'>
-      <DndContext sensors={sensors}>
+      <DndContext
+        sensors={sensors}
+        onDragEnd={handleDragEnd}
+        collisionDetection={closestCorners}
+        modifiers={[restrictToHorizontalAxis]}
+      >
         <SortableContext items={tasksGroups}>
           {!!tasksGroups?.length &&
             tasksGroups?.map(({ id, name, tasks }) => (
