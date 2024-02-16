@@ -12,4 +12,5 @@ export const {
   deleteWorkspaceTasksGroup,
   updateWorkspaceName,
   updateTasksGroupName,
+  setWorkspacesOrder,
 } = boardSlice.actions;

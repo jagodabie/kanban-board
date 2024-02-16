@@ -1,3 +1,4 @@
+import { arrayMove } from '@dnd-kit/sortable';
 import { WorkspaceInterface } from '../store/types';
 
 export const generateId = (): string => {
@@ -33,4 +34,17 @@ export const updateArrayElement = <T extends { id: string }>(
   return element.map((element) => {
     return element.id === id ? updatedElement : element;
   });
+};
+
+export const getTaskPosition = <T extends { id: string }>(
+  elements: T[],
+  id: string
+) => elements.findIndex((element) => element.id === id);
+
+export const changedElementsOrder = <T>(
+  elements: T[],
+  originalPosition: number,
+  newPosition: number
+) => {
+  return arrayMove(elements, originalPosition, newPosition);
 };

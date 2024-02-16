@@ -11,6 +11,12 @@ export const createWorkspace = (
 ) => {
   state.workspaces = [...state.workspaces, action.payload];
 };
+export const setWorkspacesOrder = (
+  state: BoardInterface,
+  action: PayloadAction<WorkspaceInterface[]>
+) => {
+  state.workspaces = action.payload;
+};
 
 export const updateWorkspaceName = (
   state: BoardInterface,

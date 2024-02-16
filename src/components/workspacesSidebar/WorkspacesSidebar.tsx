@@ -3,11 +3,13 @@ import { UserProfile } from '../userProfile';
 import { WorkspaceSettings } from '../workspaceSettings';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
-import { generateId } from '../../utils';
+import { changedElementsOrder, generateId, getTaskPosition } from '../../utils';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
   DndContext,
+  DragOverEvent,
   PointerSensor,
+  closestCorners,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -20,6 +22,7 @@ import {
   setEditMode,
   setSaveButtonDisabled,
   setWorkspaceEditing,
+  setWorkspacesOrder,
 } from '../../store/slices/actions';
 
 export const WorkspacesSidebar = () => {
@@ -57,11 +60,35 @@ export const WorkspacesSidebar = () => {
     dispatch(setEditMode({ id: '' }));
   };
 
+  const handleDragEnd = (event: DragOverEvent) => {
+    const { active, over } = event;
+
+    if (active.id === over?.id) return;
+
+    if (active.id && over?.id) {
+      dispatch(
+        setWorkspacesOrder(
+          changedElementsOrder(
+            workspace.workspaces,
+            getTaskPosition(workspace.workspaces, active.id as string),
+            getTaskPosition(workspace.workspaces, over.id as string)
+          )
+        )
+      );
+    }
+    return;
+  };
+
   return (
     <div className='workspaces'>
       <div className='workspaces-header'></div>
       <div className='workspaces-main'>
-        <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]}>
+        <DndContext
+          sensors={sensors}
+          modifiers={[restrictToVerticalAxis]}
+          onDragEnd={handleDragEnd}
+          collisionDetection={closestCorners}
+        >
           <WorkspacesColumn workspaces={workspace.workspaces} />
         </DndContext>
         <Button
