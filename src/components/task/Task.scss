@@ -1,3 +1,5 @@
+@import '../../_mixins.scss';
+
 .task {
   display: flex;
   justify-content: space-between;
@@ -8,4 +10,6 @@
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0px 1px 1px rgba(18, 3, 62, 0.1), 0px 0px 1px rgba(18, 3, 62, 0.1);
+
+  @include workspaceElement;
 }
