@@ -11,7 +11,19 @@ const initialState: BoardInterface = {
         {
           id: '1233',
           name: 'Tasks group 1',
-          tasks: [],
+          tasks: [
+            { id: '1', name: 'Task 1', done: false, subtasks: [] },
+            {
+              id: '2',
+              name: 'Task 2',
+              done: false,
+              subtasks: [
+                { id: '1', name: 'Subtask 1', done: false },
+                { id: '2', name: 'Subtask 2', done: false },
+                { id: '3', name: 'Subtask 3', done: false },
+              ],
+            },
+          ],
         },
       ],
     },
@@ -30,6 +42,7 @@ const initialState: BoardInterface = {
   workspaceEditing: '',
   create: true,
   save: true,
+  isActionVisible: false,
 };
 
 export const boardSlice = createSlice({

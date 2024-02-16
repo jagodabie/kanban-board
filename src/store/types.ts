@@ -5,11 +5,10 @@ export interface SubtasksInterface {
 }
 
 export interface TaskInterface {
-  O;
   name: string;
   id: string;
   done: boolean;
-  subtasks?: [];
+  subtasks?: SubtasksInterface[];
 }
 export interface TasksGroupInterface {
   name: string;

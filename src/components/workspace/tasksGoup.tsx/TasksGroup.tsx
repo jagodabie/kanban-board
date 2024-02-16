@@ -12,6 +12,8 @@ import { TaskInterface } from '../../../store/types';
 import { Button } from '../../UI/button';
 import { useState } from 'react';
 import { WorkspaceElement } from '../../workspaceElement/WorkspaceElement';
+import { Task } from '../../task/Task';
+import './TasksGroup.scss';
 
 export const TasksGroups = ({
   id,
@@ -42,28 +44,30 @@ export const TasksGroups = ({
       onMouseLeave={() => setIsActionVisible(false)}
     >
       <div className='tasks-group-header'>
-        <div className='workspace-tasks-group'>
-          <WorkspaceElement
-            key={id}
-            id={id}
-            name={name}
-            boardElementClass='workspace-tasks-group'
-            deleteAction={() => dispatch(deleteWorkspaceTasksGroup(id))}
-            onBlur={(inputValue) => {
-              dispatch(updateTasksGroupName(inputValue || name));
-              dispatch(setEditMode({ id: '' }));
-            }}
-            editingAction={() => dispatch(setEditMode({ id: id }))}
-            isActionVisible={isActionVisible}
-          />
-        </div>
+        <WorkspaceElement
+          key={id}
+          id={id}
+          name={name}
+          boardElementClass='tasks-group'
+          deleteAction={() => dispatch(deleteWorkspaceTasksGroup(id))}
+          onBlur={(inputValue) => {
+            dispatch(updateTasksGroupName(inputValue || name));
+            dispatch(setEditMode({ id: '' }));
+          }}
+          editingAction={() => dispatch(setEditMode({ id: id }))}
+          isActionVisible={isActionVisible}
+        />
       </div>
+
       <div className='tasks-group-main'>
         {!!tasks?.length &&
-          tasks.map((task, index) => (
-            <div key={index} className='tasks-group-task'>
-              {task.name}
-            </div>
+          tasks.map((task) => (
+            <Task
+              id={task.id}
+              key={task.id}
+              name={task.name}
+              subtasks={task?.subtasks || []}
+            />
           ))}
       </div>
       <div className='tasks-group-footer'>
