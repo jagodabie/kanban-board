@@ -8,7 +8,7 @@ export const Task: React.FC<{
   name: string;
   id: string;
   subtasks: SubtasksInterface[];
-}> = ({ name, id }) => {
+}> = ({ name, id, subtasks }) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -23,6 +23,22 @@ export const Task: React.FC<{
         editingAction={() => dispatch(setEditMode({ id: id }))}
         onBlur={() => {}}
       />
+      {!!subtasks?.length && (
+        <>
+          {subtasks.map((subtask) => (
+            <WorkspaceSideBarElementWrapper
+              key={subtask.id}
+              id={subtask.id}
+              name={subtask.name}
+              placeholder='Title of the new subtask...'
+              boardElementClass='subtask'
+              deleteAction={() => {}}
+              editingAction={() => dispatch(setEditMode({ id: id }))}
+              onBlur={() => {}}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 };

@@ -12,7 +12,15 @@ const initialState: BoardInterface = {
           id: '1233',
           name: 'Tasks group 1',
           tasks: [
-            { id: '21', name: 'Task 1', done: false, subtasks: [] },
+            {
+              id: '21',
+              name: 'Task 1',
+              done: false,
+              subtasks: [
+                { id: '21', name: 'Subtask 1', done: false },
+                { id: '22', name: 'Subtask 2', done: false },
+              ],
+            },
             {
               id: '22',
               name: 'Task 2',

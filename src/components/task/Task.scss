@@ -1,6 +1,7 @@
 @import '../../_mixins.scss';
 
-.task {
+.task,
+.subtask {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,4 +13,7 @@
   box-shadow: 0px 1px 1px rgba(18, 3, 62, 0.1), 0px 0px 1px rgba(18, 3, 62, 0.1);
 
   @include workspaceElement;
+}
+.subtask {
+  margin-left: 20px;
 }
