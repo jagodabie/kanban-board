@@ -5,6 +5,7 @@ import { Plus } from '../../../assets/icons';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import {
   deleteWorkspaceTasksGroup,
+  setTasks,
   setEditMode,
   updateTasksGroupName,
 } from '../../../store/slices/actions';
@@ -14,6 +15,7 @@ import { useState } from 'react';
 import { WorkspaceElement } from '../../workspaceElement/WorkspaceElement';
 import { Task } from '../../task/Task';
 import './TasksGroup.scss';
+import { generateId } from '../../../utils';
 
 export const TasksGroups = ({
   id,
@@ -76,7 +78,23 @@ export const TasksGroups = ({
       <div className='tasks-group-footer'>
         <Button
           text='Add a card'
-          onClick={() => console.log('test')}
+          onClick={() =>
+            dispatch(
+              setTasks({
+                tasksGroupId: id,
+                tasks: [
+                  ...tasks,
+                  {
+                    id: generateId(),
+                    name: 'New task',
+                    done: false,
+                    tasksGroupId: id,
+                    subtasks: [],
+                  },
+                ],
+              })
+            )
+          }
           iconComponent={<Plus color='#88819f' />}
         />
       </div>

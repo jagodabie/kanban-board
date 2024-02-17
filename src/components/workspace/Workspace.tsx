@@ -2,7 +2,7 @@ import { SortableContext } from '@dnd-kit/sortable';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
 import {
   addWorkspaceTasksGroup,
-  setColumnTasks,
+  setTasks,
   setTasksGroupOrder,
 } from '../../store/slices/actions';
 import { changedElementsOrder, generateId, getTaskPosition } from '../../utils';
@@ -54,7 +54,7 @@ export const Workspace = ({ id }: { id: string }) => {
       );
 
       dispatch(
-        setColumnTasks({
+        setTasks({
           tasksGroupId: columnId,
           tasks: changedElementsOrder(
             tasksGroupActive?.tasks || [],
@@ -89,14 +89,14 @@ export const Workspace = ({ id }: { id: string }) => {
       });
 
       dispatch(
-        setColumnTasks({
+        setTasks({
           tasks: newActiveTasks?.length ? newActiveTasks : [],
           tasksGroupId: columnActiveId,
         })
       );
 
       dispatch(
-        setColumnTasks({
+        setTasks({
           tasks: [...tasksGroupOver, activeTask]?.length
             ? [...tasksGroupOver, activeTask]
             : [],

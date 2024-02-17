@@ -29,7 +29,8 @@ export const setTasksGroupOrder = (
       : workspace;
   });
 };
-export const setColumnTasks = (
+
+export const setTasks = (
   state: BoardInterface,
   action: PayloadAction<{
     tasks: TaskInterface[];

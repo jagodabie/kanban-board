@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
 import { setEditMode } from '../../store/slices/actions';
 import { SubtasksInterface, TaskInterface } from '../../store/types';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
@@ -12,6 +12,16 @@ export const Task: React.FC<{
 }> = ({ name, id, subtasks, task }) => {
   const dispatch = useAppDispatch();
 
+  const updateTaskName = (inputValue?: string) => {
+    if (inputValue) {
+      const updatedTask = {
+        ...task,
+        name: inputValue,
+      };
+      console.log(updatedTask);
+    }
+  };
+
   return (
     <div onClick={() => console.log(id)}>
       <WorkspaceSideBarElementWrapper
@@ -24,7 +34,7 @@ export const Task: React.FC<{
         type='task'
         deleteAction={() => {}}
         editingAction={() => dispatch(setEditMode({ id: id }))}
-        onBlur={() => {}}
+        onBlur={(inputValue) => updateTaskName(inputValue)}
       />
       {!!subtasks?.length &&
         subtasks.map((subtask) => (
