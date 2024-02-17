@@ -26,26 +26,23 @@ export const Task: React.FC<{
         editingAction={() => dispatch(setEditMode({ id: id }))}
         onBlur={() => {}}
       />
-      {!!subtasks?.length && (
-        <>
-          {subtasks.map((subtask) => (
-            <div onClick={() => console.log(subtask.id)}>
-              <WorkspaceSideBarElementWrapper
-                key={subtask.id}
-                id={subtask.id}
-                type='subtask'
-                element={subtask}
-                name={subtask.name}
-                placeholder='Title of the new subtask...'
-                boardElementClass='subtask'
-                deleteAction={() => {}}
-                editingAction={() => dispatch(setEditMode({ id: id }))}
-                onBlur={() => {}}
-              />
-            </div>
-          ))}
-        </>
-      )}
+      {!!subtasks?.length &&
+        subtasks.map((subtask) => (
+          <div onClick={() => console.log(subtask.id)}>
+            <WorkspaceSideBarElementWrapper
+              key={subtask.id}
+              id={subtask.id}
+              type='subtask'
+              element={subtask}
+              name={subtask.name}
+              placeholder='Title of the new subtask...'
+              boardElementClass='subtask'
+              deleteAction={() => {}}
+              editingAction={() => dispatch(setEditMode({ id: id }))}
+              onBlur={() => {}}
+            />
+          </div>
+        ))}
     </div>
   );
 };

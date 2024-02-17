@@ -2,7 +2,7 @@ import { SortableContext } from '@dnd-kit/sortable';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
 import {
   addWorkspaceTasksGroup,
-  setColumnTasksOrder,
+  setColumnTasks,
   setTasksGroupOrder,
 } from '../../store/slices/actions';
 import { changedElementsOrder, generateId, getTaskPosition } from '../../utils';
@@ -19,6 +19,7 @@ import {
 } from '@dnd-kit/core';
 
 export const Workspace = ({ id }: { id: string }) => {
+  const dispatch = useAppDispatch();
   const tasksGroups =
     useAppSelector(
       ({ workspace }) =>
@@ -29,7 +30,7 @@ export const Workspace = ({ id }: { id: string }) => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: 10,
       },
     })
   );
@@ -40,34 +41,31 @@ export const Workspace = ({ id }: { id: string }) => {
 
     const isActiveATask = active.data.current?.type === 'task';
     const isOverATask = over?.data.current?.type === 'task';
+    const columnActiveId = active?.data.current?.element?.tasksGroupId || '';
+    const columnOverId = over?.data.current?.element?.tasksGroupId || '';
+    const activeTask = active.data.current?.element;
 
-    if (isActiveATask && isOverATask) {
-      // const activeTaskId = active.data.current.element.id;
-      // const activeTaskId = over?.data.current.element.id;
-      // TODO: zatualizuj taski w grupach
-
+    // DnD within in range  tasks group
+    if (isActiveATask && isOverATask && columnOverId === columnActiveId) {
       const columnId = over?.data.current?.element.tasksGroupId || '';
 
       const tasksGroupActive = tasksGroups.find(
         (group) => group.id === columnId
       );
 
-      const changedElementsOrder1 = changedElementsOrder(
-        tasksGroupActive?.tasks || [],
-        getTaskPosition(tasksGroupActive?.tasks || [], active.id as string),
-        getTaskPosition(tasksGroups[columnId]?.tasks || [], over.id as string)
-      );
-
       dispatch(
-        setColumnTasksOrder({
-          tasks: changedElementsOrder1,
-          activeTaskId: active.id as string,
-          overTaskId: over.id as string,
+        setColumnTasks({
+          tasksGroupId: columnId,
+          tasks: changedElementsOrder(
+            tasksGroupActive?.tasks || [],
+            getTaskPosition(tasksGroupActive?.tasks || [], active.id as string),
+            getTaskPosition(tasksGroupActive?.tasks || [], over.id as string)
+          ),
         })
       );
     }
-
-    if (active.id && over?.id) {
+    // DnD between columns
+    if (active.id && over?.id && !isOverATask && !isActiveATask) {
       dispatch(
         setTasksGroupOrder(
           changedElementsOrder(
@@ -78,9 +76,38 @@ export const Workspace = ({ id }: { id: string }) => {
         )
       );
     }
+    if (isActiveATask && isOverATask && columnOverId !== columnActiveId) {
+      const tasksGroupActive = tasksGroups.find(
+        (group) => group.id === columnActiveId
+      );
+
+      const tasksGroupOver =
+        tasksGroups.find((group) => group.id === columnOverId)?.tasks || [];
+
+      const newActiveTasks = tasksGroupActive?.tasks?.filter((task) => {
+        return task.id !== activeTask.id;
+      });
+
+      dispatch(
+        setColumnTasks({
+          tasks: newActiveTasks?.length ? newActiveTasks : [],
+          tasksGroupId: columnActiveId,
+        })
+      );
+
+      dispatch(
+        setColumnTasks({
+          tasks: [...tasksGroupOver, activeTask]?.length
+            ? [...tasksGroupOver, activeTask]
+            : [],
+          tasksGroupId: columnOverId,
+        })
+      );
+    }
+
     return;
   };
-  const dispatch = useAppDispatch();
+
   return (
     <div className='workspace'>
       <DndContext
@@ -91,7 +118,7 @@ export const Workspace = ({ id }: { id: string }) => {
         <SortableContext items={tasksGroups}>
           {!!tasksGroups?.length &&
             tasksGroups?.map(({ id, name, tasks }) => (
-              <TasksGroups id={id} name={name} tasks={tasks || []} />
+              <TasksGroups id={id} name={name} tasks={tasks || []} key={id} />
             ))}
         </SortableContext>
       </DndContext>

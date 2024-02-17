@@ -29,31 +29,31 @@ export const setTasksGroupOrder = (
       : workspace;
   });
 };
-// TODO: działa
-export const setColumnTasksOrder = (
+export const setColumnTasks = (
   state: BoardInterface,
   action: PayloadAction<{
     tasks: TaskInterface[];
-    activeTaskId: string;
-    overTaskId: string;
+    tasksGroupId: string;
   }>
 ) => {
   const foundWorkspace = state.workspaces.find(
     (workspace) => workspace.id === state.workspaceEditing
   );
+
   if (foundWorkspace) {
-    const foundTasksGroupActive = foundWorkspace?.tasksGroups.find(
-      (TasksGroups) => TasksGroups.id === action.payload.tasks[0].tasksGroupId
+    const foundTasksGroup = foundWorkspace?.tasksGroups.find(
+      (TasksGroups) => TasksGroups.id === action.payload.tasksGroupId
     );
-    if (foundTasksGroupActive) {
+
+    if (foundTasksGroup) {
       const updatedTasksGroup = {
-        ...foundTasksGroupActive,
+        ...foundTasksGroup,
         tasks: action.payload.tasks,
       };
 
       const updatedTasksGroups = [
         ...foundWorkspace.tasksGroups.filter(
-          (taskGroup) => taskGroup.id !== action.payload.tasks[0].tasksGroupId
+          (taskGroup) => taskGroup.id !== action.payload.tasksGroupId
         ),
         updatedTasksGroup,
       ];
@@ -62,6 +62,7 @@ export const setColumnTasksOrder = (
         ...foundWorkspace,
         tasksGroups: updatedTasksGroups,
       };
+
       state.workspaces = state.workspaces.map((workspace) => {
         return workspace.id === state.workspaceEditing
           ? updatedWorkspace
