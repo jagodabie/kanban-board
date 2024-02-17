@@ -5,6 +5,7 @@ export interface SubtasksInterface {
 }
 
 export interface TaskInterface {
+  tasksGroupId?: string;
   name: string;
   id: string;
   done: boolean;

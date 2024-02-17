@@ -3,6 +3,7 @@ import { WorkspaceElement } from './WorkspaceElement';
 import './WorkspaceElement.scss';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { SubtasksInterface, TasksGroupInterface } from '../../store/types';
 
 export const WorkspaceSideBarElementWrapper = ({
   id,
@@ -14,11 +15,15 @@ export const WorkspaceSideBarElementWrapper = ({
   boardElementClass,
   editingAction,
   onBlur,
+  element,
+  type,
 }: {
   id: string;
   name?: string;
   iconComponent?: JSX.Element;
   placeholder?: string;
+  type: string;
+  element: SubtasksInterface | TasksGroupInterface | TasksGroupInterface;
   onClick?: () => void;
   deleteAction?: () => void;
   boardElementClass: string;
@@ -26,7 +31,13 @@ export const WorkspaceSideBarElementWrapper = ({
   onBlur?: (inputValue?: string) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+    useSortable({
+      id,
+      data: {
+        type,
+        element,
+      },
+    });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,

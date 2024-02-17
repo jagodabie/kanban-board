@@ -2,6 +2,7 @@ import { SortableContext } from '@dnd-kit/sortable';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
 import {
   addWorkspaceTasksGroup,
+  setColumnTasksOrder,
   setTasksGroupOrder,
 } from '../../store/slices/actions';
 import { changedElementsOrder, generateId, getTaskPosition } from '../../utils';
@@ -16,7 +17,6 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 
 export const Workspace = ({ id }: { id: string }) => {
   const tasksGroups =
@@ -29,7 +29,7 @@ export const Workspace = ({ id }: { id: string }) => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 10,
+        distance: 5,
       },
     })
   );
@@ -37,6 +37,35 @@ export const Workspace = ({ id }: { id: string }) => {
     const { active, over } = event;
 
     if (active.id === over?.id) return;
+
+    const isActiveATask = active.data.current?.type === 'task';
+    const isOverATask = over?.data.current?.type === 'task';
+
+    if (isActiveATask && isOverATask) {
+      // const activeTaskId = active.data.current.element.id;
+      // const activeTaskId = over?.data.current.element.id;
+      // TODO: zatualizuj taski w grupach
+
+      const columnId = over?.data.current?.element.tasksGroupId || '';
+
+      const tasksGroupActive = tasksGroups.find(
+        (group) => group.id === columnId
+      );
+
+      const changedElementsOrder1 = changedElementsOrder(
+        tasksGroupActive?.tasks || [],
+        getTaskPosition(tasksGroupActive?.tasks || [], active.id as string),
+        getTaskPosition(tasksGroups[columnId]?.tasks || [], over.id as string)
+      );
+
+      dispatch(
+        setColumnTasksOrder({
+          tasks: changedElementsOrder1,
+          activeTaskId: active.id as string,
+          overTaskId: over.id as string,
+        })
+      );
+    }
 
     if (active.id && over?.id) {
       dispatch(
@@ -58,7 +87,6 @@ export const Workspace = ({ id }: { id: string }) => {
         sensors={sensors}
         onDragEnd={handleDragEnd}
         collisionDetection={closestCorners}
-        modifiers={[restrictToHorizontalAxis]}
       >
         <SortableContext items={tasksGroups}>
           {!!tasksGroups?.length &&

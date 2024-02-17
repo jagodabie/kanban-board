@@ -1,4 +1,4 @@
-import { useSortable } from '@dnd-kit/sortable';
+import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 import { Plus } from '../../../assets/icons';
@@ -62,12 +62,15 @@ export const TasksGroups = ({
       <div className='tasks-group-main'>
         {!!tasks?.length &&
           tasks.map((task) => (
-            <Task
-              id={task.id}
-              key={task.id}
-              name={task.name}
-              subtasks={task?.subtasks || []}
-            />
+            <SortableContext items={tasks}>
+              <Task
+                task={task}
+                id={task.id}
+                key={task.id}
+                name={task.name}
+                subtasks={task?.subtasks || []}
+              />
+            </SortableContext>
           ))}
       </div>
       <div className='tasks-group-footer'>

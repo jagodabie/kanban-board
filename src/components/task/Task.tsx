@@ -1,14 +1,15 @@
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { setEditMode } from '../../store/slices/actions';
-import { SubtasksInterface } from '../../store/types';
+import { SubtasksInterface, TaskInterface } from '../../store/types';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
 import './Task.scss';
 
 export const Task: React.FC<{
   name: string;
   id: string;
+  task: TaskInterface;
   subtasks: SubtasksInterface[];
-}> = ({ name, id, subtasks }) => {
+}> = ({ name, id, subtasks, task }) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -17,8 +18,10 @@ export const Task: React.FC<{
         key={id}
         id={id}
         name={name}
+        element={task}
         placeholder='Title of the new card...'
         boardElementClass='task'
+        type='task'
         deleteAction={() => {}}
         editingAction={() => dispatch(setEditMode({ id: id }))}
         onBlur={() => {}}
@@ -26,16 +29,20 @@ export const Task: React.FC<{
       {!!subtasks?.length && (
         <>
           {subtasks.map((subtask) => (
-            <WorkspaceSideBarElementWrapper
-              key={subtask.id}
-              id={subtask.id}
-              name={subtask.name}
-              placeholder='Title of the new subtask...'
-              boardElementClass='subtask'
-              deleteAction={() => {}}
-              editingAction={() => dispatch(setEditMode({ id: id }))}
-              onBlur={() => {}}
-            />
+            <div onClick={() => console.log(subtask.id)}>
+              <WorkspaceSideBarElementWrapper
+                key={subtask.id}
+                id={subtask.id}
+                type='subtask'
+                element={subtask}
+                name={subtask.name}
+                placeholder='Title of the new subtask...'
+                boardElementClass='subtask'
+                deleteAction={() => {}}
+                editingAction={() => dispatch(setEditMode({ id: id }))}
+                onBlur={() => {}}
+              />
+            </div>
           ))}
         </>
       )}
