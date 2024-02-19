@@ -1,7 +1,6 @@
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { setEditMode, setTasks } from '../../store/slices/actions';
 import { TaskInterface, TasksGroupInterface } from '../../store/types';
-import { Input } from '../UI/input/Input';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
 import './Task.scss';
 

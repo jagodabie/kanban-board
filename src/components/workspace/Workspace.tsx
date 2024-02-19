@@ -8,7 +8,6 @@ import {
 import { changedElementsOrder, generateId, getTaskPosition } from '../../utils';
 import { Input } from '../UI/input/Input';
 import './Workspace.scss';
-import { TasksGroups } from './tasksGoup.tsx/TasksGroup';
 import {
   DndContext,
   DragOverEvent,
@@ -17,6 +16,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { TasksGroups } from './tasksGroup/TasksGroup';
 
 export const Workspace = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
