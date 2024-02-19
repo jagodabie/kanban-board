@@ -9,23 +9,21 @@ import {
   setEditMode,
   updateTasksGroupName,
 } from '../../../store/slices/actions';
-import { TaskInterface } from '../../../store/types';
+import { TasksGroupInterface } from '../../../store/types';
 import { Button } from '../../UI/button';
 import { useState } from 'react';
 import { WorkspaceElement } from '../../workspaceElement/WorkspaceElement';
 import { Task } from '../../task/Task';
 import './TasksGroup.scss';
 import { generateId } from '../../../utils';
+import { Input } from '../../UI/input/Input';
 
 export const TasksGroups = ({
-  id,
-  name,
-  tasks,
+  tasksGroup,
 }: {
-  id: string;
-  name: string;
-  tasks: TaskInterface[];
+  tasksGroup: TasksGroupInterface;
 }) => {
+  const { id, name, tasks } = tasksGroup;
   const dispatch = useAppDispatch();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -34,6 +32,7 @@ export const TasksGroups = ({
     transition,
   };
   const [isActionVisible, setIsActionVisible] = useState(false);
+  const [showInput, setShowInput] = useState(false);
 
   return (
     <div
@@ -60,41 +59,46 @@ export const TasksGroups = ({
           isActionVisible={isActionVisible}
         />
       </div>
-
-      <div className='tasks-group-main'>
+      <div className='tasks-group-main' key={id}>
         {!!tasks?.length &&
           tasks.map((task) => (
             <SortableContext items={tasks}>
-              <Task
-                task={task}
-                id={task.id}
-                key={task.id}
-                name={task.name}
-                subtasks={task?.subtasks || []}
-              />
+              <Task task={task} key={task.id} tasksGroup={tasksGroup} />
             </SortableContext>
           ))}
+        {showInput && (
+          <div className='task'>
+            <Input
+              placeholder='Title of the new card...'
+              boardElementClass='task-new'
+              onBlur={(inputValue) => {
+                if (inputValue !== '') {
+                  dispatch(
+                    setTasks({
+                      tasksGroupId: id,
+                      tasks: [
+                        ...tasks,
+                        {
+                          id: generateId(),
+                          name: inputValue,
+                          done: false,
+                          tasksGroupId: id,
+                          subtasks: [],
+                        },
+                      ],
+                    })
+                  );
+                  setShowInput(false);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
       <div className='tasks-group-footer'>
         <Button
           text='Add a card'
-          onClick={() =>
-            dispatch(
-              setTasks({
-                tasksGroupId: id,
-                tasks: [
-                  ...tasks,
-                  {
-                    id: generateId(),
-                    name: 'New task',
-                    done: false,
-                    tasksGroupId: id,
-                    subtasks: [],
-                  },
-                ],
-              })
-            )
-          }
+          onClick={() => setShowInput(true)}
           iconComponent={<Plus color='#88819f' />}
         />
       </div>

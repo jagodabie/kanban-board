@@ -29,6 +29,7 @@ export const Input = ({
         <div className={`${boardElementClass}-icon`}>{iconComponent}</div>
       )}
       <input
+        className={boardElementClass ? `${boardElementClass}-input` : ''}
         value={inputValue}
         placeholder={placeholder}
         id={id}

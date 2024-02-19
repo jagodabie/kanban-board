@@ -53,17 +53,17 @@ export const setTasks = (
       };
 
       const updatedTasksGroups = [
-        ...foundWorkspace.tasksGroups.filter(
-          (taskGroup) => taskGroup.id !== action.payload.tasksGroupId
+        ...foundWorkspace.tasksGroups.map((taskGroup) =>
+          taskGroup.id === action.payload.tasksGroupId
+            ? updatedTasksGroup
+            : taskGroup
         ),
-        updatedTasksGroup,
       ];
 
       const updatedWorkspace: WorkspaceInterface = {
         ...foundWorkspace,
         tasksGroups: updatedTasksGroups,
       };
-
       state.workspaces = state.workspaces.map((workspace) => {
         return workspace.id === state.workspaceEditing
           ? updatedWorkspace
@@ -103,7 +103,7 @@ export const deleteWorkspace = (
   );
 };
 
-export const addWorkspaceTasksGroup = (
+export const createWorkspaceTasksGroup = (
   state: BoardInterface,
   action: PayloadAction<TasksGroupInterface>
 ) => {

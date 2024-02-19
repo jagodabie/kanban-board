@@ -8,7 +8,7 @@ export const {
   setSaveButtonDisabled,
   saveEditedWorkspace,
   setWorkspaceEditing,
-  addWorkspaceTasksGroup,
+  createWorkspaceTasksGroup,
   deleteWorkspaceTasksGroup,
   updateWorkspaceName,
   updateTasksGroupName,

@@ -9,12 +9,13 @@ export interface TaskInterface {
   name: string;
   id: string;
   done: boolean;
-  subtasks?: SubtasksInterface[];
+  subtasks: SubtasksInterface[];
 }
 export interface TasksGroupInterface {
   name: string;
   id: string;
-  tasks?: TaskInterface[];
+  tasks: TaskInterface[];
+  workspaceId: string;
 }
 
 export interface WorkspaceInterface {

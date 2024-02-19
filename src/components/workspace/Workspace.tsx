@@ -1,7 +1,7 @@
 import { SortableContext } from '@dnd-kit/sortable';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
 import {
-  addWorkspaceTasksGroup,
+  createWorkspaceTasksGroup,
   setTasks,
   setTasksGroupOrder,
 } from '../../store/slices/actions';
@@ -117,8 +117,8 @@ export const Workspace = ({ id }: { id: string }) => {
       >
         <SortableContext items={tasksGroups}>
           {!!tasksGroups?.length &&
-            tasksGroups?.map(({ id, name, tasks }) => (
-              <TasksGroups id={id} name={name} tasks={tasks || []} key={id} />
+            tasksGroups?.map((tasksGroup) => (
+              <TasksGroups tasksGroup={tasksGroup} key={tasksGroup.id} />
             ))}
         </SortableContext>
       </DndContext>
@@ -129,10 +129,11 @@ export const Workspace = ({ id }: { id: string }) => {
           onBlur={(inputValue) => {
             if (inputValue !== '') {
               dispatch(
-                addWorkspaceTasksGroup({
+                createWorkspaceTasksGroup({
                   id: generateId(),
                   name: inputValue,
                   tasks: [],
+                  workspaceId: id,
                 })
               );
             }

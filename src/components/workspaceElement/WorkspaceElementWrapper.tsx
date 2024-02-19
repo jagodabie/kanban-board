@@ -22,8 +22,8 @@ export const WorkspaceSideBarElementWrapper = ({
   name?: string;
   iconComponent?: JSX.Element;
   placeholder?: string;
-  type: string;
-  element: SubtasksInterface | TasksGroupInterface | TasksGroupInterface;
+  type?: string;
+  element?: SubtasksInterface | TasksGroupInterface | TasksGroupInterface;
   onClick?: () => void;
   deleteAction?: () => void;
   boardElementClass: string;

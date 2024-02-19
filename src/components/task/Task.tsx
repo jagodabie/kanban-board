@@ -1,29 +1,39 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
-import { setEditMode } from '../../store/slices/actions';
-import { SubtasksInterface, TaskInterface } from '../../store/types';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { setEditMode, setTasks } from '../../store/slices/actions';
+import { TaskInterface, TasksGroupInterface } from '../../store/types';
+import { Input } from '../UI/input/Input';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
 import './Task.scss';
 
 export const Task: React.FC<{
-  name: string;
-  id: string;
   task: TaskInterface;
-  subtasks: SubtasksInterface[];
-}> = ({ name, id, subtasks, task }) => {
+  tasksGroup: TasksGroupInterface;
+}> = ({ task, tasksGroup }) => {
+  const { id, name, subtasks } = task;
   const dispatch = useAppDispatch();
 
   const updateTaskName = (inputValue?: string) => {
-    if (inputValue) {
+    if (inputValue && inputValue !== name) {
       const updatedTask = {
         ...task,
         name: inputValue,
       };
-      console.log(updatedTask);
+
+      dispatch(
+        setTasks({
+          tasks: tasksGroup.tasks.map((task) => {
+            return task.id === updatedTask.id ? updatedTask : task;
+          }),
+          tasksGroupId: tasksGroup.id,
+        })
+      );
+      dispatch(setEditMode({ id: '' }));
     }
+    return;
   };
 
   return (
-    <div onClick={() => console.log(id)}>
+    <div key={id}>
       <WorkspaceSideBarElementWrapper
         key={id}
         id={id}
@@ -32,26 +42,33 @@ export const Task: React.FC<{
         placeholder='Title of the new card...'
         boardElementClass='task'
         type='task'
-        deleteAction={() => {}}
-        editingAction={() => dispatch(setEditMode({ id: id }))}
-        onBlur={(inputValue) => updateTaskName(inputValue)}
+        deleteAction={() =>
+          dispatch(
+            setTasks({
+              tasks: [...tasksGroup.tasks.filter((task) => task.id !== id)],
+              tasksGroupId: tasksGroup.id,
+            })
+          )
+        }
+        editingAction={() => dispatch(setEditMode({ id: task.id }))}
+        onBlur={(inputValue) => {
+          updateTaskName(inputValue);
+        }}
       />
       {!!subtasks?.length &&
         subtasks.map((subtask) => (
-          <div onClick={() => console.log(subtask.id)}>
-            <WorkspaceSideBarElementWrapper
-              key={subtask.id}
-              id={subtask.id}
-              type='subtask'
-              element={subtask}
-              name={subtask.name}
-              placeholder='Title of the new subtask...'
-              boardElementClass='subtask'
-              deleteAction={() => {}}
-              editingAction={() => dispatch(setEditMode({ id: id }))}
-              onBlur={() => {}}
-            />
-          </div>
+          <WorkspaceSideBarElementWrapper
+            key={subtask.id}
+            id={subtask.id}
+            type='subtask'
+            element={subtask}
+            name={subtask.name}
+            placeholder='Title of the new subtask...'
+            boardElementClass='subtask'
+            deleteAction={() => {}}
+            editingAction={() => dispatch(setEditMode({ id }))}
+            onBlur={() => {}}
+          />
         ))}
     </div>
   );

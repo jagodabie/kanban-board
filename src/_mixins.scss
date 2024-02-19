@@ -25,3 +25,16 @@
     }
   }
 }
+
+@mixin task {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 17px;
+  margin: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 1px 1px rgba(18, 3, 62, 0.1), 0px 0px 1px rgba(18, 3, 62, 0.1);
+}

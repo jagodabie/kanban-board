@@ -11,6 +11,7 @@ const initialState: BoardInterface = {
         {
           id: '1233',
           name: 'Tasks group 1',
+          workspaceId: '1',
           tasks: [
             {
               id: '21',
@@ -38,6 +39,7 @@ const initialState: BoardInterface = {
         {
           id: '34545',
           name: 'TEST 1 ',
+          workspaceId: '1',
           tasks: [
             {
               id: '34543235',
@@ -46,7 +48,7 @@ const initialState: BoardInterface = {
               tasksGroupId: '34545',
               subtasks: [
                 { id: '345451', name: 'WWW', done: false },
-                { id: '345451', name: 'QQQ', done: false },
+                { id: '34545155645', name: 'QQQ', done: false },
               ],
             },
             {
@@ -55,9 +57,9 @@ const initialState: BoardInterface = {
               done: false,
               tasksGroupId: '34545',
               subtasks: [
-                { id: 'sdsd', name: 'Subtask 11', done: false },
-                { id: 'sds', name: 'Subtask 24', done: false },
-                { id: 'sdsd', name: 'Subtask 34', done: false },
+                { id: '54564sdsd', name: 'Subtask 11', done: false },
+                { id: 'sds545', name: 'Subtask 24', done: false },
+                { id: '54584sd', name: 'Subtask 34', done: false },
               ],
             },
           ],

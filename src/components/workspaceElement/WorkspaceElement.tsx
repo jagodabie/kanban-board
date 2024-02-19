@@ -26,7 +26,6 @@ export const WorkspaceElement = ({
   onBlur?: (inputValue?: string) => void;
 }) => {
   const editMode = useAppSelector((state) => state.workspace.editMode);
-
   if (editMode.id === id) {
     return (
       <Input
