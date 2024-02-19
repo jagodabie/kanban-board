@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
   BoardInterface,
+  SubtasksInterface,
   TaskInterface,
   TasksGroupInterface,
   WorkspaceInterface,
@@ -69,6 +70,66 @@ export const setTasks = (
           ? updatedWorkspace
           : workspace;
       });
+    }
+  }
+};
+export const setSubtasks = (
+  state: BoardInterface,
+  action: PayloadAction<{
+    subtasks: SubtasksInterface[];
+    tasksGroupId: string;
+    taskId: string;
+  }>
+) => {
+  const foundWorkspace = state.workspaces.find(
+    (workspace) => workspace.id === state.workspaceEditing
+  );
+
+  if (foundWorkspace) {
+    const foundTasksGroup = foundWorkspace?.tasksGroups.find(
+      (TasksGroups) => TasksGroups.id === action.payload.tasksGroupId
+    );
+
+    if (foundTasksGroup) {
+      const foundTask = foundTasksGroup.tasks.find(
+        (task) => task.id === action.payload.taskId
+      );
+
+      if (foundTask) {
+        const updatedTask = {
+          ...foundTask,
+          subtasks: action.payload.subtasks,
+        };
+
+        const updatedTasks = [
+          ...foundTasksGroup.tasks.map((task) =>
+            task.id === action.payload.taskId ? updatedTask : task
+          ),
+        ];
+
+        const updatedTasksGroup = {
+          ...foundTasksGroup,
+          tasks: updatedTasks,
+        };
+
+        const updatedTasksGroups = [
+          ...foundWorkspace.tasksGroups.map((taskGroup) =>
+            taskGroup.id === action.payload.tasksGroupId
+              ? updatedTasksGroup
+              : taskGroup
+          ),
+        ];
+        const updatedWorkspace = {
+          ...foundWorkspace,
+          tasksGroups: updatedTasksGroups,
+        };
+
+        state.workspaces = state.workspaces.map((workspace) => {
+          return workspace.id === state.workspaceEditing
+            ? updatedWorkspace
+            : workspace;
+        });
+      }
     }
   }
 };

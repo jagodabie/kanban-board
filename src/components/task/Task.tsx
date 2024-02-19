@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { setEditMode, setTasks } from '../../store/slices/actions';
+import { setEditMode, setSubtasks, setTasks } from '../../store/slices/actions';
 import { TaskInterface, TasksGroupInterface } from '../../store/types';
+import { Subtask } from '../subtask/Subtask';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
 import './Task.scss';
+import { Input } from '../UI/input/Input';
+import { generateId } from '../../utils';
 
 export const Task: React.FC<{
   task: TaskInterface;
@@ -10,6 +14,7 @@ export const Task: React.FC<{
 }> = ({ task, tasksGroup }) => {
   const { id, name, subtasks } = task;
   const dispatch = useAppDispatch();
+  const [showInput, setShowInput] = useState(false);
 
   const updateTaskName = (inputValue?: string) => {
     if (inputValue && inputValue !== name) {
@@ -37,7 +42,6 @@ export const Task: React.FC<{
         key={id}
         id={id}
         name={name}
-        element={task}
         placeholder='Title of the new card...'
         boardElementClass='task'
         type='task'
@@ -56,19 +60,38 @@ export const Task: React.FC<{
       />
       {!!subtasks?.length &&
         subtasks.map((subtask) => (
-          <WorkspaceSideBarElementWrapper
-            key={subtask.id}
-            id={subtask.id}
-            type='subtask'
-            element={subtask}
-            name={subtask.name}
-            placeholder='Title of the new subtask...'
-            boardElementClass='subtask'
-            deleteAction={() => {}}
-            editingAction={() => dispatch(setEditMode({ id }))}
-            onBlur={() => {}}
-          />
+          <Subtask subtask={subtask} key={subtask.id} task={task} />
         ))}
+      <div className=''>
+        {showInput && (
+          <div className='subtask'>
+            <Input
+              placeholder='Title of the new subtask'
+              boardElementClass='subtask-new'
+              onBlur={(inputValue) => {
+                if (inputValue !== '') {
+                  dispatch(
+                    setSubtasks({
+                      tasksGroupId: tasksGroup.id,
+                      taskId: id,
+                      subtasks: [
+                        ...subtasks,
+                        {
+                          id: generateId(),
+                          name: inputValue,
+                          done: false,
+                          taskId: id,
+                        },
+                      ],
+                    })
+                  );
+                  setShowInput(false);
+                }
+              }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

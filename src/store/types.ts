@@ -2,10 +2,11 @@ export interface SubtasksInterface {
   name: string;
   id: string;
   done: boolean;
+  taskId: string;
 }
 
 export interface TaskInterface {
-  tasksGroupId?: string;
+  tasksGroupId: string;
   name: string;
   id: string;
   done: boolean;
