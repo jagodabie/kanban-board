@@ -2,7 +2,7 @@ export interface SubtasksInterface {
   name: string;
   id: string;
   done: boolean;
-  taskId: string;
+  taskId?: string;
 }
 
 export interface TaskInterface {

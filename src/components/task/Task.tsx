@@ -42,9 +42,11 @@ export const Task: React.FC<{
         key={id}
         id={id}
         name={name}
+        element={task}
         placeholder='Title of the new card...'
         boardElementClass='task'
         type='task'
+        createSubtask={() => setShowInput(true)}
         deleteAction={() =>
           dispatch(
             setTasks({

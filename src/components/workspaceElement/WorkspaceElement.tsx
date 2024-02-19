@@ -13,9 +13,12 @@ export const WorkspaceElement = ({
   boardElementClass,
   editingAction,
   onBlur,
+  type,
+  createSubtask,
 }: {
   name?: string;
   id?: string;
+  type?: string;
   isActionVisible?: boolean;
   iconComponent?: JSX.Element;
   onClick?: () => void;
@@ -24,6 +27,7 @@ export const WorkspaceElement = ({
   deleteAction?: () => void;
   editingAction?: () => void;
   onBlur?: (inputValue?: string) => void;
+  createSubtask?: () => void;
 }) => {
   const editMode = useAppSelector((state) => state.workspace.editMode);
   if (editMode.id === id) {
@@ -44,9 +48,11 @@ export const WorkspaceElement = ({
       boardElementClass={boardElementClass}
       iconComponent={iconComponent}
       name={name || ''}
+      type={type || ''}
       isActionVisible={isActionVisible || false}
       deleteAction={deleteAction || (() => {})}
       editingAction={editingAction || (() => {})}
+      createSubtask={createSubtask || (() => {})}
     />
   );
 };

@@ -19,8 +19,8 @@ const initialState: BoardInterface = {
               done: false,
               tasksGroupId: '1233',
               subtasks: [
-                { id: '215454', name: 'XXXX', done: false },
-                { id: '224545', name: 'YYYY', done: false },
+                { id: '215454', name: 'XXXX', done: false, taskId: '1233' },
+                { id: '224545', name: 'YYYY', done: false, taskId: '1233' },
               ],
             },
             {
@@ -29,9 +29,24 @@ const initialState: BoardInterface = {
               done: false,
               tasksGroupId: '1233',
               subtasks: [
-                { id: '2154545', name: 'Subtask 1', done: false },
-                { id: '22212', name: 'Subtask 2', done: false },
-                { id: '23541541', name: 'Subtask 3', done: false },
+                {
+                  id: '2154545',
+                  name: 'Subtask 1',
+                  done: false,
+                  taskId: '1233',
+                },
+                {
+                  id: '22212',
+                  name: 'Subtask 2',
+                  done: false,
+                  taskId: '1233',
+                },
+                {
+                  id: '23541541',
+                  name: 'Subtask 3',
+                  done: false,
+                  taskId: '1233',
+                },
               ],
             },
           ],
@@ -47,8 +62,13 @@ const initialState: BoardInterface = {
               done: false,
               tasksGroupId: '34545',
               subtasks: [
-                { id: '345451', name: 'WWW', done: false },
-                { id: '34545155645', name: 'QQQ', done: false },
+                { id: '345451', name: 'WWW', done: false, taskId: '34545' },
+                {
+                  id: '34545155645',
+                  name: 'QQQ',
+                  done: false,
+                  taskId: '34545',
+                },
               ],
             },
             {
@@ -57,9 +77,24 @@ const initialState: BoardInterface = {
               done: false,
               tasksGroupId: '34545',
               subtasks: [
-                { id: '54564sdsd', name: 'Subtask 11', done: false },
-                { id: 'sds545', name: 'Subtask 24', done: false },
-                { id: '54584sd', name: 'Subtask 34', done: false },
+                {
+                  id: '54564sdsd',
+                  name: 'Subtask 11',
+                  done: false,
+                  taskId: '34545',
+                },
+                {
+                  id: 'sds545',
+                  name: 'Subtask 24',
+                  done: false,
+                  taskId: '34545',
+                },
+                {
+                  id: '54584sd',
+                  name: 'Subtask 34',
+                  done: false,
+                  taskId: '34545',
+                },
               ],
             },
           ],

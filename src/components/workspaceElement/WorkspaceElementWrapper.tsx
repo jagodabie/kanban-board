@@ -14,6 +14,7 @@ export const WorkspaceSideBarElementWrapper = ({
   deleteAction,
   boardElementClass,
   editingAction,
+  createSubtask,
   onBlur,
   element,
   type,
@@ -25,6 +26,7 @@ export const WorkspaceSideBarElementWrapper = ({
   type?: string;
   element?: SubtasksInterface | TasksGroupInterface | TasksGroupInterface;
   onClick?: () => void;
+  createSubtask?: () => void;
   deleteAction?: () => void;
   boardElementClass: string;
   editingAction?: () => void;
@@ -65,7 +67,9 @@ export const WorkspaceSideBarElementWrapper = ({
         boardElementClass={boardElementClass}
         editingAction={editingAction}
         onBlur={onBlur}
+        createSubtask={createSubtask}
         isActionVisible={isActionVisible}
+        type={type}
       />
     </div>
   );
