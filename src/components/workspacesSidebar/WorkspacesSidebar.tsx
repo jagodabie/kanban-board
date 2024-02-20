@@ -52,14 +52,12 @@ export const WorkspacesSidebar = () => {
       })
     );
     dispatch(setCreateVisible(false));
-    console.log(newWorkspace, 'newWorkspace');
   };
 
   const saveWorkspace = () => {
     dispatch(setEditMode({ id: '' }));
     dispatch(setSaveButtonDisabled(false));
     dispatch(setCreateVisible(true));
-    console.log('save');
   };
 
   const handleDragEnd = (event: DragOverEvent) => {
@@ -80,7 +78,7 @@ export const WorkspacesSidebar = () => {
     }
     return;
   };
-  console.log(workspace.create, 'workspace');
+
   return (
     <div className='workspaces'>
       <div className='workspaces-header'></div>

@@ -12,6 +12,7 @@ const initialState: BoardInterface = {
           id: '1233',
           name: 'Tasks group 1',
           workspaceId: '1',
+          doneTasks: 1,
           tasks: [
             {
               id: '21',
@@ -26,7 +27,7 @@ const initialState: BoardInterface = {
             {
               id: '22',
               name: 'Task 2',
-              done: false,
+              done: true,
               tasksGroupId: '1233',
               subtasks: [
                 {
@@ -55,6 +56,7 @@ const initialState: BoardInterface = {
           id: '34545',
           name: 'TEST 1 ',
           workspaceId: '1',
+          doneTasks: 1,
           tasks: [
             {
               id: '34543235',

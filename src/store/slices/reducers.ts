@@ -275,3 +275,36 @@ export const setWorkspaceEditing = (
 ) => {
   state.workspaceEditing = action.payload;
 };
+
+export const setDoneTasks = (
+  state: BoardInterface,
+  action: PayloadAction<{ groupId: string }>
+) => {
+  const workspaceFound = state.workspaces.find(
+    (workspace) => workspace.id === state.workspaceEditing
+  );
+  const tasksGroupFound = workspaceFound?.tasksGroups.find(
+    (tasksGroup) => tasksGroup.id === action.payload.groupId
+  );
+  if (workspaceFound && tasksGroupFound) {
+    const updatedTasksGroup = {
+      ...tasksGroupFound,
+      doneTasks: tasksGroupFound.tasks.filter((task) => task.done).length,
+    };
+    const updatedTasksGroups = workspaceFound.tasksGroups.map((tasksGroup) => {
+      return tasksGroup.id === action.payload.groupId
+        ? updatedTasksGroup
+        : tasksGroup;
+    });
+    const updatedWorkspace = {
+      ...workspaceFound,
+      tasksGroups: updatedTasksGroups,
+    };
+
+    state.workspaces = state.workspaces.map((workspace) => {
+      return workspace.id === state.workspaceEditing
+        ? updatedWorkspace
+        : workspace;
+    });
+  }
+};

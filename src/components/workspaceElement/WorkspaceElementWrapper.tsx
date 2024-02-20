@@ -18,10 +18,12 @@ export const WorkspaceSideBarElementWrapper = ({
   onBlur,
   onChange,
   element,
+  done,
   type,
 }: {
   id: string;
   name?: string;
+  done?: boolean;
   iconComponent?: JSX.Element;
   placeholder?: string;
   type?: string;
@@ -32,7 +34,7 @@ export const WorkspaceSideBarElementWrapper = ({
   boardElementClass: string;
   editingAction?: () => void;
   onBlur?: (inputValue?: string) => void;
-  onChange?: (inputValue?: string) => void;
+  onChange?: (inputValue?: string | boolean) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
@@ -62,6 +64,7 @@ export const WorkspaceSideBarElementWrapper = ({
       <WorkspaceElement
         key={id}
         name={name}
+        done={done || false}
         iconComponent={iconComponent}
         placeholder={placeholder}
         id={id}

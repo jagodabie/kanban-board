@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { setEditMode, setSubtasks, setTasks } from '../../store/slices/actions';
+import {
+  setDoneTasks,
+  setEditMode,
+  setSubtasks,
+  setTasks,
+} from '../../store/slices/actions';
 import { TaskInterface, TasksGroupInterface } from '../../store/types';
 import { Subtask } from '../subtask/Subtask';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
@@ -16,11 +21,11 @@ export const Task: React.FC<{
   const dispatch = useAppDispatch();
   const [showInput, setShowInput] = useState(false);
 
-  const updateTaskName = (inputValue?: string) => {
-    if (inputValue && inputValue !== name) {
+  const updateTaskProperty = (key: string, value?: string | boolean) => {
+    if (value && value !== name) {
       const updatedTask = {
         ...task,
-        name: inputValue,
+        [key]: value,
       };
 
       dispatch(
@@ -31,8 +36,13 @@ export const Task: React.FC<{
           tasksGroupId: tasksGroup.id,
         })
       );
-      dispatch(setEditMode({ id: '' }));
+
+      key !== 'done' ? dispatch(setEditMode({ id: '' })) : null;
+      key === 'done'
+        ? dispatch(setDoneTasks({ groupId: tasksGroup.id }))
+        : null;
     }
+
     return;
   };
 
@@ -43,6 +53,7 @@ export const Task: React.FC<{
         id={id}
         name={name}
         element={task}
+        done={task.done}
         placeholder='Title of the new card...'
         boardElementClass='task'
         type='task'
@@ -57,14 +68,15 @@ export const Task: React.FC<{
         }
         editingAction={() => dispatch(setEditMode({ id: task.id }))}
         onBlur={(inputValue) => {
-          updateTaskName(inputValue);
+          updateTaskProperty('name', inputValue);
         }}
+        onChange={(checked) => updateTaskProperty('done', checked)}
       />
       {!!subtasks?.length &&
         subtasks.map((subtask) => (
           <Subtask subtask={subtask} key={subtask.id} task={task} />
         ))}
-      <div className=''>
+      <div>
         {showInput && (
           <div className='subtask'>
             <Input

@@ -2,7 +2,7 @@ import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 import { Plus } from '../../../assets/icons';
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { useAppDispatch, useAppSelector } from '../../../hooks/useAppDispatch';
 import {
   deleteWorkspaceTasksGroup,
   setTasks,
@@ -11,12 +11,12 @@ import {
 } from '../../../store/slices/actions';
 import { TasksGroupInterface } from '../../../store/types';
 import { Button } from '../../UI/button';
-import { useState } from 'react';
 import { WorkspaceElement } from '../../workspaceElement/WorkspaceElement';
 import { Task } from '../../task/Task';
 import './TasksGroup.scss';
 import { generateId } from '../../../utils';
 import { Input } from '../../UI/input/Input';
+import { useState } from 'react';
 
 export const TasksGroups = ({
   tasksGroup,
@@ -33,6 +33,11 @@ export const TasksGroups = ({
   };
   const [isActionVisible, setIsActionVisible] = useState(false);
   const [showInput, setShowInput] = useState(false);
+  const doneTasks = useAppSelector((state) =>
+    state.workspace.workspaces.find(
+      (workspace) => workspace.id === state.workspace.workspaceEditing
+    )
+  )?.tasksGroups.find((group) => group.id === tasksGroup.id)?.doneTasks;
 
   return (
     <div
@@ -58,6 +63,7 @@ export const TasksGroups = ({
           editingAction={() => dispatch(setEditMode({ id: id }))}
           isActionVisible={isActionVisible}
         />
+        {`${doneTasks || 0}/${tasksGroup?.tasks?.length}`}
       </div>
       <div className='tasks-group-main' key={id}>
         {!!tasks?.length &&

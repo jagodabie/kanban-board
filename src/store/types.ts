@@ -17,6 +17,7 @@ export interface TasksGroupInterface {
   id: string;
   tasks: TaskInterface[];
   workspaceId: string;
+  doneTasks?: number;
 }
 
 export interface WorkspaceInterface {

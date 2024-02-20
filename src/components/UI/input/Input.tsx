@@ -24,6 +24,7 @@ export const Input = ({
 }) => {
   const [inputValue, setInputValue] = useState(id ? name : '');
   const dispatch = useAppDispatch();
+
   const handleLeaveInput = () => {
     onBlur(inputValue || '');
     id ? setInputValue(name) : setInputValue('');
@@ -39,7 +40,7 @@ export const Input = ({
     if (!save && type === 'workspace') {
       dispatch(updateWorkspaceName(inputValue || ''));
     }
-  }, [dispatch, inputValue, save]);
+  }, [dispatch, inputValue, save, type]);
 
   return (
     <>

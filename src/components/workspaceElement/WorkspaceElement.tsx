@@ -16,9 +16,11 @@ export const WorkspaceElement = ({
   type,
   createSubtask,
   onChange,
+  done,
 }: {
   name?: string;
   id?: string;
+  done?: boolean;
   type?: string;
   isActionVisible?: boolean;
   iconComponent?: JSX.Element;
@@ -29,9 +31,10 @@ export const WorkspaceElement = ({
   editingAction?: () => void;
   onBlur?: (inputValue?: string) => void;
   createSubtask?: () => void;
-  onChange?: (inputValue?: string) => void;
+  onChange?: (inputValue?: string | boolean) => void;
 }) => {
   const editMode = useAppSelector((state) => state.workspace.editMode);
+
   if (editMode.id === id) {
     return (
       <Input
@@ -53,8 +56,10 @@ export const WorkspaceElement = ({
       iconComponent={iconComponent}
       name={name || ''}
       type={type || ''}
+      done={done || false}
       isActionVisible={isActionVisible || false}
       deleteAction={deleteAction || (() => {})}
+      onChange={onChange}
       editingAction={editingAction || (() => {})}
       createSubtask={createSubtask || (() => {})}
     />

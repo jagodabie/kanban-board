@@ -12,11 +12,11 @@ export const Subtask = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const updateTaskName = (inputValue?: string) => {
-    if (inputValue && inputValue !== subtask.name) {
+  const updateSubtaskProperty = (key: string, value?: string | boolean) => {
+    if (value && value !== subtask.name) {
       const updatedSubtask = {
         ...subtask,
-        name: inputValue,
+        [key]: value,
       };
 
       dispatch(
@@ -57,8 +57,9 @@ export const Subtask = ({
         }
         editingAction={() => dispatch(setEditMode({ id: subtask.id }))}
         onBlur={(inputValue) => {
-          updateTaskName(inputValue);
+          updateSubtaskProperty('name', inputValue);
         }}
+        onChange={(checked) => updateSubtaskProperty('done', checked)}
       />
     </div>
   );

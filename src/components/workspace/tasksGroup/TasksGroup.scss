@@ -5,7 +5,7 @@
     // TODO: dopasować ten kolor tła do siebie
     display: flex;
     justify-content: flex-start;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     padding: 10px;
     justify-content: space-between;
     padding-top: 2px;
@@ -15,7 +15,7 @@
   }
   &-main {
     background-color: #ecf1fd;
-    box-sizing: border-box;
+    padding: 2px 0;
   }
 
   @include workspaceElement;
@@ -26,5 +26,10 @@
   }
   &-actions {
     margin-top: 0;
+  }
+  &-footer {
+    button {
+      border-radius: 0 0 8px 8px;
+    }
   }
 }
