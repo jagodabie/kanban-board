@@ -44,7 +44,6 @@ export const WorkspacesSidebar = () => {
       id: generateId(),
       tasksGroups: [],
     };
-
     dispatch(createWorkspace(newWorkspace));
     dispatch(setWorkspaceEditing(newWorkspace.id));
     dispatch(
@@ -53,11 +52,14 @@ export const WorkspacesSidebar = () => {
       })
     );
     dispatch(setCreateVisible(false));
+    console.log(newWorkspace, 'newWorkspace');
   };
+
   const saveWorkspace = () => {
-    dispatch(setCreateVisible(true));
-    dispatch(setSaveButtonDisabled(true));
     dispatch(setEditMode({ id: '' }));
+    dispatch(setSaveButtonDisabled(false));
+    dispatch(setCreateVisible(true));
+    console.log('save');
   };
 
   const handleDragEnd = (event: DragOverEvent) => {
@@ -78,7 +80,7 @@ export const WorkspacesSidebar = () => {
     }
     return;
   };
-
+  console.log(workspace.create, 'workspace');
   return (
     <div className='workspaces'>
       <div className='workspaces-header'></div>

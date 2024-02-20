@@ -103,7 +103,7 @@ const initialState: BoardInterface = {
     },
     {
       id: '5434534',
-      name: 'Acme Corp workspace 223213',
+      name: 'Acme 223213',
       tasksGroups: [],
     },
   ],

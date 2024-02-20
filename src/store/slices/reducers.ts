@@ -183,6 +183,7 @@ export const createWorkspaceTasksGroup = (
     });
   }
 };
+
 export const updateTasksGroupName = (
   state: BoardInterface,
   action: PayloadAction<string>

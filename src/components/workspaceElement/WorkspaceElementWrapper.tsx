@@ -16,6 +16,7 @@ export const WorkspaceSideBarElementWrapper = ({
   editingAction,
   createSubtask,
   onBlur,
+  onChange,
   element,
   type,
 }: {
@@ -31,6 +32,7 @@ export const WorkspaceSideBarElementWrapper = ({
   boardElementClass: string;
   editingAction?: () => void;
   onBlur?: (inputValue?: string) => void;
+  onChange?: (inputValue?: string) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
@@ -70,6 +72,7 @@ export const WorkspaceSideBarElementWrapper = ({
         createSubtask={createSubtask}
         isActionVisible={isActionVisible}
         type={type}
+        onChange={onChange}
       />
     </div>
   );

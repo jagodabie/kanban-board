@@ -21,7 +21,6 @@ export const ReadModeElement = ({
   editingAction: () => void;
   createSubtask?: () => void;
 }) => {
-  console.log('ReadModeElement', type);
   return (
     <>
       <div className={`${boardElementClass}-container`}>
