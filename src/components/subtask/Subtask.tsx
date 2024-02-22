@@ -1,39 +1,18 @@
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useUpdateSubtask } from '../../hooks/useUpdateSubtaskProperty';
 import { setEditMode, setSubtasks } from '../../store/slices/actions';
-import { SubtasksInterface, TaskInterface } from '../../store/types';
+import { SubtaskInterface, TaskInterface } from '../../store/types';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
 
 export const Subtask = ({
   subtask,
   task,
 }: {
-  subtask: SubtasksInterface;
+  subtask: SubtaskInterface;
   task: TaskInterface;
 }) => {
   const dispatch = useAppDispatch();
-
-  const updateSubtaskProperty = (key: string, value?: string | boolean) => {
-    if (value && value !== subtask.name) {
-      const updatedSubtask = {
-        ...subtask,
-        [key]: value,
-      };
-
-      dispatch(
-        setSubtasks({
-          subtasks: task.subtasks.map((subtaskItem) => {
-            return subtaskItem.id === updatedSubtask.id
-              ? updatedSubtask
-              : subtaskItem;
-          }),
-          tasksGroupId: task.tasksGroupId,
-          taskId: task.id,
-        })
-      );
-      dispatch(setEditMode({ id: '' }));
-    }
-    return;
-  };
+  const updateSubtaskProperty = useUpdateSubtask(subtask, task);
 
   return (
     <div>
@@ -57,9 +36,9 @@ export const Subtask = ({
         }
         editingAction={() => dispatch(setEditMode({ id: subtask.id }))}
         onBlur={(inputValue) => {
-          updateSubtaskProperty('name', inputValue);
+          updateSubtaskProperty('name', inputValue || '');
         }}
-        onChange={(checked) => updateSubtaskProperty('done', checked)}
+        onChange={(checked) => updateSubtaskProperty('done', checked || false)}
       />
     </div>
   );

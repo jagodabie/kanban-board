@@ -3,7 +3,7 @@ import { WorkspaceElement } from './WorkspaceElement';
 import './WorkspaceElement.scss';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { SubtasksInterface, TasksGroupInterface } from '../../store/types';
+import { SubtaskInterface, TasksGroupInterface } from '../../store/types';
 
 export const WorkspaceSideBarElementWrapper = ({
   id,
@@ -27,7 +27,7 @@ export const WorkspaceSideBarElementWrapper = ({
   iconComponent?: JSX.Element;
   placeholder?: string;
   type?: string;
-  element?: SubtasksInterface | TasksGroupInterface | TasksGroupInterface;
+  element?: SubtaskInterface | TasksGroupInterface | TasksGroupInterface;
   onClick?: () => void;
   createSubtask?: () => void;
   deleteAction?: () => void;

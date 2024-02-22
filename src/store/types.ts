@@ -1,4 +1,4 @@
-export interface SubtasksInterface {
+export interface SubtaskInterface {
   name: string;
   id: string;
   done: boolean;
@@ -10,7 +10,7 @@ export interface TaskInterface {
   name: string;
   id: string;
   done: boolean;
-  subtasks: SubtasksInterface[];
+  subtasks: SubtaskInterface[];
 }
 export interface TasksGroupInterface {
   name: string;

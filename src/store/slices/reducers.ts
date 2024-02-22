@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
   BoardInterface,
-  SubtasksInterface,
+  SubtaskInterface,
   TaskInterface,
   TasksGroupInterface,
   WorkspaceInterface,
@@ -76,7 +76,7 @@ export const setTasks = (
 export const setSubtasks = (
   state: BoardInterface,
   action: PayloadAction<{
-    subtasks: SubtasksInterface[];
+    subtasks: SubtaskInterface[];
     tasksGroupId: string;
     taskId: string;
   }>
