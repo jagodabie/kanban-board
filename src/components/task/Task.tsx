@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import {
-  setDoneTasks,
-  setEditMode,
-  setSubtasks,
-  setTasks,
-} from '../../store/slices/actions';
+import { setEditMode, setSubtasks, setTasks } from '../../store/slices/actions';
 import { TaskInterface, TasksGroupInterface } from '../../store/types';
 import { Subtask } from '../subtask/Subtask';
 import { WorkspaceSideBarElementWrapper } from '../workspaceElement/WorkspaceElementWrapper';
 import './Task.scss';
 import { Input } from '../UI/input/Input';
 import { generateId } from '../../utils';
+import { useUpdateTaskProperty } from '../../hooks/useUpdateTaskProperty';
 
 export const Task: React.FC<{
   task: TaskInterface;
@@ -21,30 +17,7 @@ export const Task: React.FC<{
   const dispatch = useAppDispatch();
   const [showInput, setShowInput] = useState(false);
 
-  const updateTaskProperty = (key: string, value?: string | boolean) => {
-    if (value && value !== name) {
-      const updatedTask = {
-        ...task,
-        [key]: value,
-      };
-
-      dispatch(
-        setTasks({
-          tasks: tasksGroup.tasks.map((task) => {
-            return task.id === updatedTask.id ? updatedTask : task;
-          }),
-          tasksGroupId: tasksGroup.id,
-        })
-      );
-
-      key !== 'done' ? dispatch(setEditMode({ id: '' })) : null;
-      key === 'done'
-        ? dispatch(setDoneTasks({ groupId: tasksGroup.id }))
-        : null;
-    }
-
-    return;
-  };
+  const updateTaskProperty = useUpdateTaskProperty(task, tasksGroup);
 
   return (
     <div key={id}>
@@ -68,9 +41,9 @@ export const Task: React.FC<{
         }
         editingAction={() => dispatch(setEditMode({ id: task.id }))}
         onBlur={(inputValue) => {
-          updateTaskProperty('name', inputValue);
+          updateTaskProperty('name', inputValue || '');
         }}
-        onChange={(checked) => updateTaskProperty('done', checked)}
+        onChange={(checked) => updateTaskProperty('done', checked || false)}
       />
       {!!subtasks?.length &&
         subtasks.map((subtask) => (

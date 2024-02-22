@@ -9,7 +9,6 @@ export const useUpdateSubtask = (
   const dispatch = useAppDispatch();
 
   const updateSubtaskProperty = (key: string, value: string | boolean) => {
-    console.log('updateSubtaskProperty', key, value);
     if (value && value !== subtask.name) {
       const updatedSubtask = {
         ...subtask,
